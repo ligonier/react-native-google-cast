@@ -263,7 +263,12 @@ function addGoogleCastVersionImport(
   { version }: { version?: string } = {}
 ) {
   const newSrc = [`        castFrameworkVersion = "${version}"`]
-  const hasExtBlock = src.match(/ext(?:\s+)?\{/)
+  let hasExtBlock = false
+  try {
+    hasExtBlock = Boolean(src.match(/ext(?:\s+)?\{/))
+  } catch (e) {
+    console.warn(e)
+  }
   const anchor = hasExtBlock ? /ext(?:\s+)?\{/ : /buildscript(?:\s+)?\{/
 
   if (!hasExtBlock) {
